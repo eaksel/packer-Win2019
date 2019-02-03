@@ -9,7 +9,7 @@
       "numvcpus": "2",
       "vm_name": "Win2019_17763-Core",
       "winrm_password" : "packer",
-      "winrm_username" : "packer"
+      "winrm_username" : "Administrator"
     },
     "builders": [
         {

@@ -119,7 +119,7 @@
                     <PlainText>true</PlainText>
                 </Password>
                 <Enabled>true</Enabled>
-                <Username>packer</Username>
+                <Username>Administrator</Username>
             </AutoLogon>
             <FirstLogonCommands>
                 <SynchronousCommand wcm:action="add">
@@ -210,18 +210,6 @@
                     <Value>packer</Value>
                     <PlainText>true</PlainText>
                 </AdministratorPassword>
-                <LocalAccounts>
-                    <LocalAccount wcm:action="add">
-                        <Password>
-                            <Value>packer</Value>
-                            <PlainText>true</PlainText>
-                        </Password>
-                        <Group>Administrators</Group>
-                        <DisplayName>Packer</DisplayName>
-                        <Name>packer</Name>
-                        <Description>Packer User</Description>
-                    </LocalAccount>
-                </LocalAccounts>
             </UserAccounts>
             <RegisteredOwner/>
         </component>
