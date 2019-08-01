@@ -20,20 +20,16 @@ Try
 }
 Catch
 {
-    Write-Error "***** Unable to install PSWindowsUpdate"
+    Write-Error "***** Unable to Import PSWindowsUpdate"
     exit 1
 }
 
 if (Test-Path C:\Windows\Temp\PSWindowsUpdate.log) {
-    # Save old logs
-    Rename-Item -Path C:\Windows\Temp\PSWindowsUpdate.log -NewName PSWindowsUpdate-$((Get-Date).Ticks).log
-
-    # Uncomment the line below to delete old logs instead
-    #Remove-Item -Path C:\Windows\Temp\PSWindowsUpdate.log
+    Remove-Item -Path C:\Windows\Temp\PSWindowsUpdate.log
 }
 
 try {
-    $updateCommand = {ipmo PSWindowsUpdate; Get-WUInstall -AcceptAll -IgnoreReboot | Out-File C:\Windows\Temp\PSWindowsUpdate.log}
+    $updateCommand = {Import-Module PSWindowsUpdate; Get-WUInstall -AcceptAll -Install -IgnoreReboot | Out-File C:\Windows\Temp\PSWindowsUpdate.log}
     $TaskName = "PackerUpdate"
 
     $User = [Security.Principal.WindowsIdentity]::GetCurrent()
