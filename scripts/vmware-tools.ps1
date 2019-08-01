@@ -1,5 +1,5 @@
-$package = "VMware-tools-10.3.5-10430147-x86_64.exe"
-$url = "https://packages.vmware.com/tools/releases/10.3.5/windows/x64/$package"
+$package = "VMware-tools-10.3.10-12406962-x86_64.exe"
+$url = "https://packages.vmware.com/tools/releases/10.3.10/windows/x64/$package"
 
 Write-Output "***** Downloading VMWare tools"
 Invoke-WebRequest $url -UseBasicParsing -OutFile "C:\Windows\Temp\$package"
