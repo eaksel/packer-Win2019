@@ -7,11 +7,11 @@ This Packer configuration file allows you to build images for VMware Workstation
 
 ## Prerequisites
 
-* [Packer](https://www.packer.io/downloads.html)
-  * <https://www.packer.io/intro/getting-started/install.html>
-* A Hypervisor
-  * [VMware Workstation](https://www.vmware.com/products/workstation-pro.html)
-  * [Oracle VM VirtualBox](https://www.virtualbox.org/)
+- [Packer](https://www.packer.io/downloads.html)
+  - <https://www.packer.io/intro/getting-started/install.html>
+- A Hypervisor
+  - [VMware Workstation](https://www.vmware.com/products/workstation-pro.html)
+  - [Oracle VM VirtualBox](https://www.virtualbox.org/)
 
 ## How to use Packer
 
@@ -23,6 +23,8 @@ To create a Windows Server 2019 VM image using VMware Workstation use the follow
 cd c:\packer-Win2019
 packer build -only=vmware-iso win2019-gui.json #Windows Server 2019 w/ GUI
 packer build -only=vmware-iso win2019-core.json #Windows Server 2019 Core
+packer build -only=vmware-iso win2019-gui_uefi.json #Windows Server 2019 w/ GUI using UEFI
+packer build -only=vmware-iso win2019-core_uefi.json #Windows Server 2019 Core using UEFI
 ```
 
 To create a Windows Server 2019 VM image using Oracle VM VirtualBox use the following commands:
@@ -31,13 +33,15 @@ To create a Windows Server 2019 VM image using Oracle VM VirtualBox use the foll
 cd c:\packer-Win2019
 packer build -only=virtualbox-iso win2019-gui.json #Windows Server 2019 w/ GUI
 packer build -only=virtualbox-iso win2019-core.json #Windows Server 2019 Core
+packer build -only=virtualbox-iso win2019-gui_uefi.json #Windows Server 2019 w/ GUI using UEFI
+packer build -only=virtualbox-iso win2019-core_uefi.json #Windows Server 2019 Core using UEFI
 ```
 
 *If you omit the keyword "-only=" images for both Workstation and Virtualbox will be created.*
 
 By default the .iso of Windows Server 2019 is pulled from <https://software-download.microsoft.com/download/pr/17763.1.180914-1434.rs5_release_SERVER_EVAL_X64FRE_EN-US.ISO>
 
-You can change the URL to one closer to your build server. To do so change the **"iso_url"** parameter in the **"variables"** section of the debian9.json file.
+You can change the URL to one closer to your build server. To do so change the **"iso_url"** parameter in the **"variables"** section of the win2019-*.json file.
 
 ```json
 {
@@ -51,8 +55,8 @@ You can change the URL to one closer to your build server. To do so change the *
 
 To set the input/user locale and timezone according to your preferences edit the following files:
 
-* ".\packer-Win2019\scripts\core\autounattend.xml"
-* ".\packer-Win2019\scripts\gui\autounattend.xml"
+- ".\packer-Win2019\scripts\<bios|uefi>\core\autounattend.xml"
+- ".\packer-Win2019\scripts\<bios|uefi>\gui\autounattend.xml"
 
 ```xml
 <settings pass="specialize">

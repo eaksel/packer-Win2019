@@ -1,6 +1,6 @@
 {
     "variables": {
-      "boot_wait": "5s",
+      "boot_wait": "2s",
       "disk_size": "40960",
       "iso_checksum_type": "sha1",
       "iso_checksum": "c4834f538a90bb41f625144c9a2e0edf8bb9b9b5",
@@ -16,6 +16,7 @@
           "type": "vmware-iso",
           "guest_os_type": "windows9srv-64",
           "vm_name":"{{user `vm_name`}}",
+          "boot_command": ["<spacebar>"],
           "boot_wait": "{{user `boot_wait`}}",
           "disk_size": "{{user `disk_size`}}",
           "disk_type_id": "0",
@@ -30,7 +31,7 @@
           "winrm_use_ssl": true,
           "winrm_insecure": true,
           "winrm_timeout": "4h",
-          "floppy_files": ["scripts/bios/gui/autounattend.xml"],
+          "floppy_files": ["scripts/uefi/gui/autounattend.xml"],
           "shutdown_command": "shutdown /s /t 5 /f /d p:4:1 /c \"Packer Shutdown\"",
           "shutdown_timeout": "30m",
           "skip_compaction": false,
@@ -38,6 +39,7 @@
             "memsize": "{{user `memsize`}}",
             "numvcpus": "{{user `numvcpus`}}",
             "virtualHW.version": "14",
+            "firmware": "efi",
             "scsi0.virtualDev": "lsisas1068"
           }
         },
@@ -45,6 +47,7 @@
             "type": "virtualbox-iso",
             "guest_os_type": "Windows2016_64",
             "vm_name": "{{user `vm_name`}}",
+          "boot_command": ["<spacebar>"],
             "iso_url": "{{user `iso_url`}}",
             "iso_checksum_type": "{{user `iso_checksum_type`}}",
             "iso_checksum": "{{user `iso_checksum`}}",
@@ -59,12 +62,14 @@
             "winrm_use_ssl": true,
             "winrm_insecure": true,
             "winrm_timeout": "4h",
-            "floppy_files": ["scripts/bios/autounattend.xml"],
             "shutdown_command": "shutdown /s /t 5 /f /d p:4:1 /c \"Packer Shutdown\"",
             "shutdown_timeout": "30m",
+            "iso_interface": "sata",
             "vboxmanage": [
               ["modifyvm", "{{.Name}}", "--memory", "{{user `memsize`}}"],
-              ["modifyvm", "{{.Name}}", "--cpus", "{{user `numvcpus`}}"]
+              ["modifyvm", "{{.Name}}", "--cpus", "{{user `numvcpus`}}"],
+              ["modifyvm", "{{.Name}}", "--firmware", "EFI"],
+              ["storageattach", "{{.Name}}", "--storagectl", "SATA Controller", "--type", "dvddrive", "--port", "3", "--medium", "./scripts/uefi/gui/autounattend.iso"]
             ]
         }
     ],
