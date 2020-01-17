@@ -1,6 +1,6 @@
 Function Cleanup { 
 
-    Clear-Host 
+    Clear-Host
 
     ## Stops the windows update service.
     Get-Service -Name wuauserv | Stop-Service -Force -Verbose -ErrorAction SilentlyContinue

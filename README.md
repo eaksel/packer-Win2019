@@ -47,7 +47,7 @@ You can change the URL to one closer to your build server. To do so change the *
 }
 ```
 
-## Confifuring Input/User Locale & Timezone
+## Configuring Input/User Locale & Timezone
 
 To set the input/user locale and timezone according to your preferences edit the following files:
 
