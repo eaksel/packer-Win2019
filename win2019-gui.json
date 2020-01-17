@@ -30,10 +30,8 @@
           "winrm_use_ssl": true,
           "winrm_insecure": true,
           "winrm_timeout": "4h",
-          "floppy_files": [
-            "scripts/gui/autounattend.xml"
-          ],
-          "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+          "floppy_files": ["scripts/gui/autounattend.xml"],
+          "shutdown_command": "shutdown /s /t 5 /f /d p:4:1 /c \"Packer Shutdown\"",
           "shutdown_timeout": "30m",
           "skip_compaction": false,
           "vmx_data": {
@@ -51,7 +49,7 @@
             "iso_checksum_type": "{{user `iso_checksum_type`}}",
             "iso_checksum": "{{user `iso_checksum`}}",
             "guest_additions_mode": "upload",
-            "guest_additions_path": "c:/Windows/Temp/windows.iso",
+            "guest_additions_path": "C:/Windows/Temp/windows.iso",
             "headless": false,
             "boot_wait": "{{user `boot_wait`}}",
             "disk_size": "{{user `disk_size`}}",
@@ -61,10 +59,8 @@
             "winrm_use_ssl": true,
             "winrm_insecure": true,
             "winrm_timeout": "4h",
-            "floppy_files": [
-                "scripts/autounattend.xml"
-              ],
-            "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+            "floppy_files": ["scripts/autounattend.xml"],
+            "shutdown_command": "shutdown /s /t 5 /f /d p:4:1 /c \"Packer Shutdown\"",
             "shutdown_timeout": "30m",
             "vboxmanage": [
               ["modifyvm", "{{.Name}}", "--memory", "{{user `memsize`}}"],
@@ -76,16 +72,18 @@
       {
         "type": "powershell",
         "only": ["vmware-iso"],
-        "scripts": [
-          "scripts/vmware-tools.ps1"
-        ]
+        "scripts": ["scripts/vmware-tools.ps1"],
+        "pause_before": "1m"
       },
       {
         "type": "powershell",
         "only": ["virtualbox-iso"],
-        "scripts": [
-          "scripts/virtualbox-guest-additions.ps1"
-        ]
+        "scripts": ["scripts/virtualbox-guest-additions.ps1"],
+        "pause_before": "1m"
+      },
+      {
+        "type": "powershell",
+        "scripts": ["scripts/setup.ps1"]
       },
       {
         "type": "windows-restart",
@@ -93,9 +91,7 @@
       },
       {
         "type": "powershell",
-        "scripts": [
-          "scripts/win-update.ps1"
-        ]
+        "scripts": ["scripts/win-update.ps1"]
       },
       {
         "type": "windows-restart",
@@ -103,9 +99,7 @@
       },
       {
         "type": "powershell",
-        "scripts": [
-          "scripts/win-update.ps1"
-        ]
+        "scripts": ["scripts/win-update.ps1"]
       },
       {
         "type": "windows-restart",
@@ -113,9 +107,7 @@
       },
       {
         "type": "powershell",
-        "scripts": [
-          "scripts/cleanup.ps1"
-        ],
+        "scripts": ["scripts/cleanup.ps1"],
         "pause_before": "1m"
       }
     ]
