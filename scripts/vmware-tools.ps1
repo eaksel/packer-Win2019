@@ -1,3 +1,4 @@
+$ProgressPreference = "SilentlyContinue"
 $package = "VMware-tools-11.0.5-15389592-x86_64.exe"
 $url = "https://packages.vmware.com/tools/releases/11.0.5/windows/x64/$package"
 
