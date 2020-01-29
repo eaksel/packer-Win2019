@@ -1,11 +1,12 @@
 $ProgressPreference = "SilentlyContinue"
 $package = "VMware-tools-11.0.5-15389592-x86_64.exe"
 $url = "https://packages.vmware.com/tools/releases/11.0.5/windows/x64/$package"
+$exe = "$Env:TEMP\$package"
 
-Write-Output "***** Downloading VMware tools"
-Invoke-WebRequest $url -UseBasicParsing -OutFile "C:\Windows\Temp\$package"
+Write-Output "***** Downloading VMware Tools"
+$wc = New-Object System.Net.WebClient
+$wc.DownloadFile($url, $exe)
 
-$exe = "C:\Windows\Temp\$package"
 $parameters = '/S /v "/qn REBOOT=R ADDLOCAL=ALL"'
 
 Write-Output "***** Installing VMware Tools"
