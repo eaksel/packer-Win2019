@@ -30,10 +30,12 @@ Remove-Item "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explore
 Remove-Item "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}"
 Remove-Item "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}"
 
-# Disable Ease of Access Keyboard
-Set-ItemProperty "HKCU:\Control Panel\Accessibility\StickyKeys" "Flags" "506"
-Set-ItemProperty "HKCU:\Control Panel\Accessibility\Keyboard Response" "Flags" "122"
-Set-ItemProperty "HKCU:\Control Panel\Accessibility\ToggleKeys" "Flags" "58"
+# Disable Ease of Access keyboard shortcuts
+if ($(Get-WindowsEdition -Online).Edition -notmatch "cor") {
+    Set-ItemProperty "HKCU:\Control Panel\Accessibility\StickyKeys" "Flags" "506"
+    Set-ItemProperty "HKCU:\Control Panel\Accessibility\Keyboard Response" "Flags" "122"
+    Set-ItemProperty "HKCU:\Control Panel\Accessibility\ToggleKeys" "Flags" "58"
+}
 
 # Setting view options
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "Hidden" 1
@@ -69,14 +71,14 @@ powercfg /change hibernate-timeout-dc 0
 Set-LocalUser Administrator -PasswordNeverExpires $true
 
 # Configure PowerShell prompt
-$psprofile = @"
+$psprofile = @'
 Set-Location /
 
 function prompt {
     Write-Host "[$(Get-Date -f 'HH:mm:ss')]" -ForegroundColor Yellow -NoNewline
     " PS $($executionContext.SessionState.Path.CurrentLocation)$('>' * ($nestedPromptLevel + 1)) "
 }
-"@
+'@
 
 New-Item $PROFILE -ItemType File -Force
 Set-Content -Path $PROFILE -Value $psprofile
