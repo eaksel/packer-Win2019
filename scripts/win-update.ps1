@@ -59,25 +59,25 @@ try {
 
     Write-Output "***** The Windows Update log will be displayed below this message. No additional output indicates no updates were needed."
     do {
-		sleep 1
-		if ((Test-Path C:\Windows\Temp\PSWindowsUpdate.log) -and $script:reader -eq $null) {
-			$script:stream = New-Object System.IO.FileStream -ArgumentList "C:\Windows\Temp\PSWindowsUpdate.log", "Open", "Read", "ReadWrite"
-			$script:reader = New-Object System.IO.StreamReader $stream
-		}
-		if ($script:reader -ne $null) {
-			$line = $Null
-			do {$script:reader.ReadLine()
-				$line = $script:reader.ReadLine()
-				Write-Output $line
-			} while ($line -ne $null)
-		}
-	} while ($Scheduler.GetRunningTasks(0) | Where-Object {$_.Name -eq $TaskName})
+        sleep 1
+        if ((Test-Path C:\Windows\Temp\PSWindowsUpdate.log) -and $script:reader -eq $null) {
+            $script:stream = New-Object System.IO.FileStream -ArgumentList "C:\Windows\Temp\PSWindowsUpdate.log", "Open", "Read", "ReadWrite"
+            $script:reader = New-Object System.IO.StreamReader $stream
+        }
+        if ($script:reader -ne $null) {
+            $line = $Null
+            do {$script:reader.ReadLine()
+                $line = $script:reader.ReadLine()
+                Write-Output $line
+            } while ($line -ne $null)
+        }
+    } while ($Scheduler.GetRunningTasks(0) | Where-Object {$_.Name -eq $TaskName})
 } finally {
     $RootFolder.DeleteTask($TaskName,0)
     [System.Runtime.Interopservices.Marshal]::ReleaseComObject($Scheduler) | Out-Null
-	if ($script:reader -ne $null) {
-		$script:reader.Close()
-		$script:stream.Dispose()
-	}
+    if ($script:reader -ne $null) {
+        $script:reader.Close()
+        $script:stream.Dispose()
+    }
 }
 Write-Output "***** Ended Windows Update Installation"
