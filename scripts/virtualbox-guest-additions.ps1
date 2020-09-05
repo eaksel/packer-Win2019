@@ -1,11 +1,14 @@
 $ProgressPreference = "SilentlyContinue"
-$package = "VBoxGuestAdditions_6.1.2.iso"
-$url = "http://download.virtualbox.org/virtualbox/6.1.2/$package"
 
-Write-Output "***** Oracle VM VirtualBox Guest Additions"
-Invoke-WebRequest $url -UseBasicParsing -OutFile "C:\Windows\Temp\$package"
+$webclient = New-Object System.Net.WebClient
+$version_url = "http://download.virtualbox.org/virtualbox/LATEST.TXT"
+$version = $webclient.DownloadString($version_url) -replace '\s', ''
+$package = "VBoxGuestAdditions_$version.iso"
+$url = "http://download.virtualbox.org/virtualbox/$version/$package"
 
-$iso = "C:\Windows\Temp\$package"
+Write-Output "***** Downloading Oracle VM VirtualBox Guest Additions"
+$iso = "$Env:TEMP\$package"
+$webclient.DownloadFile($url, $iso)
 
 Write-Output "***** Mounting disk image at $iso"
 Mount-DiskImage -ImagePath $iso
