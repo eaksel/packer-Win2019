@@ -19,7 +19,6 @@
           "disk_size": "{{user `disk_size`}}",
           "disk_type_id": "0",
           "headless": false,
-          "http_directory": "http",
           "iso_checksum": "{{user `iso_checksum`}}",
           "iso_url": "{{user `iso_url`}}",
           "communicator":"winrm",
